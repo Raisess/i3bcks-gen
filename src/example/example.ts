@@ -2,7 +2,7 @@ import I3BlocksGenerator from "../main";
 
 import { currency } from "./commands/currency";
 
-I3BlocksGenerator.generate([
+I3BlocksGenerator.createConfig([
   {
     name: "weather",
     label: "⛅️  ",
@@ -18,3 +18,6 @@ I3BlocksGenerator.generate([
     command: currency,
   },
 ]);
+
+I3BlocksGenerator.setConfig();
+
