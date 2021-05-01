@@ -1,0 +1,34 @@
+{
+  "name": "i3bcks-gen",
+  "version": "1.0.0",
+  "description": "A i3blocks (plus -) configuration generator.",
+  "main": "./dist/main.js",
+  "scripts": {
+    "start": "node ./dist/main.js",
+    "compile": "tsc -p ./tsconfig.json",
+    "clean": "rm -r ./dist",
+    "test": "jest ./dist/__tests__"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Raisess/i3bcks-gen.git"
+  },
+  "keywords": [
+    "i3",
+    "i3blocks",
+    "parser",
+    "generator",
+    "config-generator"
+  ],
+  "author": "Raisess",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Raisess/i3bcks-gen/issues"
+  },
+  "homepage": "https://github.com/Raisess/i3bcks-gen#readme",
+  "devDependencies": {
+    "@types/node": "^15.0.1",
+    "jest": "^26.6.3",
+    "typescript": "^4.2.4"
+  }
+}
