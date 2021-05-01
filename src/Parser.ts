@@ -12,7 +12,7 @@ export type Block = {
   separatorBlockWidth?: number;
   signal?: number;
   urgent?: string;
-  command?: string;
+  command?: string | (() => void);
   evalType?: Eval;
 };
 
@@ -36,6 +36,14 @@ export default class Parser {
         } else if (key === "command") {
           if (block.evalType === "shell") {
             parsedBlock += this.parseField(key, value);
+          } else if (block.evalType === "node") {
+            const evaluation: string = (value as () => void)
+              .toString()
+              .split(/\n/)
+              .map((item: string): string => item.trim())
+              .join("");
+
+            parsedBlock += this.parseField(key, `node -e '(${evaluation})();'`);
           }
         }
       }
