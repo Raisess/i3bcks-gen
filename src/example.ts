@@ -3,10 +3,10 @@ import I3BlocksGenerator from "./main";
 I3BlocksGenerator.generate([
   {
     name: 'weather',
-    label: '⛅️  '
+    label: '⛅️  ',
   },
   {
     name: 'currency',
-    label: '💸  '
-  }
+    label: '💸  ',
+  },
 ]);
