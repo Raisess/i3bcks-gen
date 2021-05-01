@@ -4,7 +4,7 @@
   "description": "A i3blocks (plus -) configuration generator.",
   "main": "./dist/main.js",
   "scripts": {
-    "start": "node ./dist/example.js",
+    "start": "node ./dist/example/example.js",
     "compile": "tsc -p ./tsconfig.json",
     "clean": "rm -r ./dist",
     "test": "jest ./dist/__tests__"
