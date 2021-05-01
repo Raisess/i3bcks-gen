@@ -6,9 +6,9 @@ I3BlocksGenerator.createConfig([
   {
     name: "weather",
     label: "⛅️  ",
-    command: "curl -Ss 'https://wttr.in/barro-ceara?0&T&Q' | cut -c 16- | head -3 | xargs echo",
     interval: 3600,
     evalType: "shell",
+    command: "curl -Ss 'https://wttr.in/barro-ceara?0&T&Q' | cut -c 16- | head -3 | xargs echo",
   },
   {
     name: "currency",
