@@ -3,7 +3,6 @@ export type Block = {
   label?: string;
   align?: string;
   color?: string;
-  command?: string;
   fullText?: string;
   shortText?: string;
   instance?: string;
@@ -13,7 +12,11 @@ export type Block = {
   separatorBlockWidth?: number;
   signal?: number;
   urgent?: string;
+  command?: string;
+  evalType?: Eval;
 };
+
+export type Eval = "node" | "shell";
 
 export default class Parser {
   constructor(private blocks: Array<Block>) {}
@@ -28,11 +31,12 @@ export default class Parser {
       const blockEntries: Array<[string, unknown]> = Object.entries(block);
 
       for (const [key, value] of blockEntries) {
-        if (key !== "name") {
-          parsedBlock += `\n${key.replace(
-            /[A-Z]/g,
-            (letter: string): string => "_" + letter.toLowerCase()
-          )}=${value}`;
+        if (key !== "name" && key !== "command" && key !== "evalType") {
+          parsedBlock += this.parseField(key, value);
+        } else if (key === "command") {
+          if (block.evalType === "shell") {
+            parsedBlock += this.parseField(key, value);
+          }
         }
       }
 
@@ -40,5 +44,12 @@ export default class Parser {
     }
 
     return parsedBlocks;
+  }
+
+  private parseField(key: string, value: unknown): string {
+    return `\n${key.replace(
+      /[A-Z]/g,
+      (letter: string): string => "_" + letter.toLowerCase()
+    )}=${value}`;
   }
 }
