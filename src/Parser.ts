@@ -13,10 +13,8 @@ export type Block = {
   signal?: number;
   urgent?: string;
   command?: string | (() => void);
-  evalType?: Eval;
+  evalType?: "node" | "shell";
 };
-
-export type Eval = "node" | "shell";
 
 export default class Parser {
   constructor(private blocks: Array<Block>) {}
