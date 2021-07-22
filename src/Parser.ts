@@ -17,12 +17,13 @@ export type Block = {
 };
 
 export default class Parser {
+  private parsedBlocks: Array<string> = [
+    "command=/usr/share/i3blocks/$BLOCK_NAME\nseparator_block_width=20\nmarkup=none\n\n",
+  ];
+
   constructor(private blocks: Array<Block>) {}
 
   public parse(): string {
-    let parsedBlocks: string =
-      "command=/usr/share/i3blocks/$BLOCK_NAME\nseparator_block_width=15\nmarkup=none\n\n";
-
     for (const block of this.blocks) {
       let parsedBlock: string = `[${block.name}]`;
 
@@ -35,21 +36,26 @@ export default class Parser {
           if (block.evalType === "shell") {
             parsedBlock += this.parseField(key, value);
           } else if (block.evalType === "node") {
-            const evaluation: string = (value as () => void)
-              .toString()
-              .split(/\n/)
-              .map((item: string): string => item.trim())
-              .join("");
+            const expression: string = this.functionToString(
+              value as () => unknown
+            );
 
-            parsedBlock += this.parseField(key, `node -e '(${evaluation})();'`);
+            parsedBlock += this.parseField(
+              key,
+              this.evaluateExpression(expression)
+            );
           }
         }
       }
 
-      parsedBlocks += parsedBlock + "\n\n";
+      this.parsedBlocks.push(parsedBlock);
     }
 
-    return parsedBlocks;
+    // Need to add a blank space a the end of generated file,
+    // if don't, the last block just doesn't work.
+    this.parsedBlocks.push(" ");
+
+    return this.parsedBlocks.join("\n\n");
   }
 
   private parseField(key: string, value: unknown): string {
@@ -57,5 +63,19 @@ export default class Parser {
       /[A-Z]/g,
       (letter: string): string => "_" + letter.toLowerCase()
     )}=${value}`;
+  }
+
+  private functionToString(funct: () => unknown): string {
+    const expression: string = funct
+      .toString()
+      .split(/\n/)
+      .map((item: string): string => item.trim())
+      .join("");
+
+    return expression;
+  }
+
+  private evaluateExpression(expression: string): string {
+    return `node -e 'console.log((${expression})());'`;
   }
 }
