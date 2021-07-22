@@ -1,8 +1,9 @@
-export function currency(): void {
+export function currency(): string {
   const { execSync } = require("child_process");
 
-  const currency = execSync("curl -sS http://brl.rate.sx/1USD")
-    .toString();
+  const currency: string = execSync(
+    "curl -sS http://brl.rate.sx/1USD"
+  ).toString();
 
-  console.log(parseFloat(currency).toFixed(2));
+  return parseFloat(currency).toFixed(2);
 }

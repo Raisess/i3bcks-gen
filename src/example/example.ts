@@ -1,4 +1,4 @@
-import I3BlocksGenerator from "../main";
+import I3BlocksGenerator from "../I3BlocksGenerator";
 
 import { currency } from "./commands/currency";
 import { disk } from "./commands/disk";
@@ -9,15 +9,16 @@ I3BlocksGenerator.createConfig([
     label: "⛅️  ",
     interval: 3600,
     evalType: "shell",
-    command: "curl -Ss 'https://wttr.in/barro-ceara?0&T&Q' | cut -c 16- | head -2 | xargs echo",
+    command:
+      "curl -Ss 'https://wttr.in/barro-ceara?0&T&Q' | cut -c 16- | head -2 | xargs echo",
     color: "#83a598",
   },
   {
     name: "currency",
     label: "💸  ",
-    interval: 3600,
     evalType: "node",
     command: currency,
+    interval: 3600,
     color: "#8ec07c",
   },
   {
@@ -27,13 +28,6 @@ I3BlocksGenerator.createConfig([
     color: "#fe8019",
     interval: "once",
     signal: 10,
-  },
-  {
-    name: "memory",
-    label: "🐏  ",
-    separator: true,
-    color: "#d3869b",
-    interval: 30,
   },
   {
     name: "disk",
@@ -67,4 +61,3 @@ I3BlocksGenerator.createConfig([
 ]);
 
 I3BlocksGenerator.setConfig();
-

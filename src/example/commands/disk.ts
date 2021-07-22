@@ -1,13 +1,13 @@
-export function disk(): void {
+export function disk(): string {
   const { execSync } = require("child_process");
 
-  const df = execSync("df -h /");
-  const data = df.toString()
+  const df: Buffer = execSync("df -h /");
+  const data: Array<string> = df
+    .toString()
     .split(/\n/)[1]
     .split(" ")
     .slice(2, 8)
     .filter((item: string): boolean => item !== "");
 
-  console.log(`${data[2].trim()} / ${data[0].trim()}`);
+  return `${data[2].trim()} / ${data[0].trim()}`;
 }
-
