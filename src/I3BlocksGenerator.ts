@@ -18,4 +18,3 @@ export default class I3BlocksGenerator {
     exec("i3-msg restart");
   }
 }
-
